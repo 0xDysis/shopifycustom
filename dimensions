@@ -1,0 +1,59 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<head>
+  <!-- ... -->
+  {% style %}
+  input[type="file"] {
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    font-weight: var(--font-body-weight);
+  }
+
+  input[type="submit"] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  {% endstyle %}
+  <!-- ... -->
+</head>
+<body>
+  <!-- ... -->
+  <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+    {{ content_for_layout }}
+    <form action="/cart/add" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+      
+      <label for="breedte">Breedte in cm:</label><br>
+      <input type="number" id="breedte" name="properties[Breedte]" min="1" step="0.01" required><br>
+      
+      <label for="hoogte">Hoogte in cm:</label><br>
+      <input type="number" id="hoogte" name="properties[Hoogte]" min="1" step="0.01" required><br>
+      
+      <input type="submit" value="Add to cart">
+      <input type="submit" id="nuKopen" value="Nu Kopen">
+    </form>
+  </main>
+  <!-- ... -->
+</body>
+<script>
+  document.getElementById('nuKopen').addEventListener('click', function(e) {
+    e.preventDefault();
+    var form = e.target.form;
+    form.action = '/cart/checkout';
+    form.submit();
+  });
+</script>
+</html>
