@@ -1,0 +1,151 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<head>
+  <!-- ... -->
+  {% style %}
+  input[type="file"] {
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    font-weight: var(--font-body-weight);
+  }
+
+  input[type="submit"] {
+    background-color: #000000;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #212121;
+  }
+button[type="Button"] {
+  background-color: #000000;
+  border: none;
+  color: white;
+  padding: 4px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  border-radius: 20px; /* Add this line */
+}
+
+button[type="Button"]:hover {
+  background-color: #212121;
+}
+#AddToCart {
+    background-color: #000000;
+     border: 2px solid black;
+    color: white;
+    padding: 3px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+
+  }
+
+  #AddToCart:hover {
+    background-color: #212121;
+  }
+
+  /* Checkout Button Styles */
+  #Checkout {
+    background-color: #000000;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+  }
+
+  #Checkout:hover {
+    background-color: #212121;
+  }
+  
+
+   /* Button Container Styles */
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  /* Button Styles */
+  .button-container button {
+    flex: 1;
+    margin: 0 10px;
+  }
+  {% endstyle %}
+  <!-- ... -->
+</head>
+<body>
+  <!-- ... -->
+  <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+    
+    <!-- Add to Cart Form -->
+    <form action="/cart/add" method="post" id="AddToCartForm">
+      <!-- Product Variant Selection -->
+      <!-- This should be dynamically generated based on your product variants -->
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+      <!-- New Image URL Input Field and Upload Image Button -->
+      <div>
+  <label for="imageUrl">Je eigen foto uploaden?</label><br>
+  <input type="text" id="imageUrl" name="properties[ImageUrl]" placeholder="Voer hier je Imgur-URL in">
+  <button type="button" onclick="window.open('https://imgur.com/upload', '_blank')">krijg hier je link!</button>
+</div>
+
+      <!-- Button Container -->
+      <div class="button-container">
+        <!-- Add to Cart Button -->
+        <button type="submit" name="add" id="AddToCart"> Winkelwagen</button>
+
+        <!-- Direct Checkout Button -->
+        <form action="/cart/checkout" method="post" id="CheckoutForm">
+          <button type="submit" id="Checkout">Koop nu</button>
+        </form>
+      </div>
+    </form>
+    
+  </main>
+  
+  <script>
+    // Get the add to cart form
+    var addToCartForm = document.getElementById('AddToCartForm');
+
+    // Listen for submissions of the add to cart form
+    addToCartForm.addEventListener('submit', function() {
+      // Get the Imgur URL input field
+      var imageUrlInput = document.getElementById('imageUrl');
+
+      // Get the Imgur URL entered by the user
+      var imageUrl = imageUrlInput.value;
+
+      // Add the Imgur URL as a line item property
+      this.elements['properties[ImageUrl]'].value = imageUrl;
+    });
+  </script>
+  
+</body>
+
+</html>
